@@ -1,0 +1,64 @@
+//c++ code to reverse a stack using recursion
+
+import java.util.Stack;
+
+class Test
+{
+	//using Stack class for stack implementation
+	static Stack<Integer> st = new Stack<>();
+	static int min=999;
+	static int x;
+
+	// Below is a recursive function that gets min element of a stack!
+
+	static int getMin(){
+	  
+	    if(st.size()>0)
+	    {
+	       
+	        if(st.peek()<min)
+	        {
+	            min=st.peek();
+	           
+	        }
+	         int x=st.pop(); //for storing and returning the then value of x during recursive call, use datatype and variable together. 
+	          getMin();
+	      
+	        st.push(x);
+	        }
+	        return min;
+	       
+	        
+	    }
+	
+
+	
+	// Driver method
+	public static void main(String[] args) 
+	{
+	    int minimum;
+		//push elements into the stack
+		st.push(10);
+		st.push(4);
+		st.push(31);
+		st.push(2);
+		
+		System.out.println("Original Stack");
+		
+		System.out.println(st);
+		
+		//function to reverse the stack
+		min=getMin();
+		
+		System.out.println("Min from Stack "+ min);
+	
+		st.pop();
+			System.out.println(st);
+		min=999; // if user gives input using switch case, make sure after min is obtained, min is reset to highest MAX valye for integer
+		minimum=getMin();
+		
+		System.out.println("Min from Stack "+ min);
+		
+	
+	}
+}

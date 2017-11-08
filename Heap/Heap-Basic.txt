@@ -1,0 +1,151 @@
+//should have ideally defined a 'swap' function!
+
+class Heap{
+    int harr[];
+    int heapsize;
+    int capacity;    
+    
+    public Heap(int capacity)
+    {
+    this.capacity=capacity;    
+    harr=new int[capacity];
+    heapsize=0;
+        
+    }
+    
+    public int getParentIndex(int index)
+    {
+        return (index-1)/2;
+    }
+    
+    public int getLeftIndex(int index)
+    {
+        int value= (2*index)+1;
+        System.out.println("Left Index is "+value);
+        
+        return value;
+    }
+    
+    public int getRightIndex(int index)
+    {
+        int value= (2*index)+2;
+        System.out.println("Right Index is "+value);
+        
+        return value;
+    
+        
+    }
+    
+    //construct heap
+    public void insert (int ele)
+    {
+     harr[heapsize]=ele;
+     int i=heapsize;
+     heapsize++;
+    
+    while(i!=0 && harr[i]<harr[getParentIndex(i)])
+    {
+         int temp=harr[getParentIndex(i)];
+         harr[getParentIndex(i)]=harr[i];
+         harr[i]=temp;
+         i=getParentIndex(i);
+    }
+    }
+    
+    
+    
+    //deletion always happens from the end of a heap - That does not need any heapification. 
+    //If a particular element needs to be deleted : I can swap it with the last element, delete the last element and heapify at the swapped position!
+    public void delete(int index){
+        int swap=heapsize-1;
+        System.out.println("swap is" +swap );
+    int temp=harr[heapsize-1];
+    harr[heapsize-1]=-1;
+    harr[index]=temp;
+    heapsize--;
+    
+    //deleted
+    //heapify around index
+    heapify(index);
+        
+    }
+    
+    public void heapify(int index)
+    {
+        if(index!=0 && harr[index]<harr[getParentIndex(index)])
+        {
+            //heapify updwards:
+            System.out.println("Came here- heapifying above");
+            while(harr[index]<harr[getParentIndex(index)] && index!=0)
+            {
+             int temp=harr[getParentIndex(index)];
+             harr[getParentIndex(index)]=harr[index];
+             harr[index]=temp;
+             index=getParentIndex(index);
+                    
+            }
+            
+        }
+        else {
+            
+            int smallest= harr[index];
+            int final_index=index;
+            while(getRightIndex(index)<heapsize && harr[getRightIndex(index)]<smallest || getLeftIndex(index)<heapsize && harr[getLeftIndex(index)]<smallest )
+            {
+                System.out.println("Came here- heapifying below");
+            
+                int temp;
+            if(getRightIndex(index)<heapsize && harr[getRightIndex(index)]<smallest)
+            {
+                int r=getRightIndex(index);
+                final_index=r;
+                smallest=harr[final_index];
+            }
+             if ( getLeftIndex(index)<heapsize && harr[getLeftIndex(index)]<smallest)
+            {
+                int l=getLeftIndex(index);
+                final_index=l;
+                smallest=harr[final_index];
+                
+            }
+            temp=harr[final_index];
+            harr[final_index]=harr[index];
+            harr[index]=temp;
+            
+            index=final_index;
+            smallest=harr[index];
+            printHeap();
+            System.out.println("Value of smallest is "+smallest);           
+            }
+        
+    }
+    }
+    public void printHeap()
+    {
+        for(int i=0;i<capacity;i++)
+        {
+            System.out.print(harr[i]+" ");
+        }
+    }
+    
+    
+}
+
+class Test{
+    public static void main(String args[])
+    {
+        Heap h= new Heap(10);
+        h.insert(1);
+        h.insert(5);
+        h.insert(6);
+        h.insert(9);
+        h.insert(11);
+        h.insert(8);
+        h.insert(15);
+        h.insert(17);
+        h.insert(21);
+        h.delete(1);
+        h.printHeap();
+        
+    }
+}
